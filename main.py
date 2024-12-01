@@ -1,3 +1,5 @@
+import random
+
 board = ["-", "-", "-",
          "-", "-", "-",
          "-", "-", "-"]
@@ -6,7 +8,6 @@ currentPlayer = "X"
 winner = None
 gameRunning = True
 
-# print game board
 def printBoard(board):
     print(board[0] + " | " + board[1] + " | " + board[2])
     print("----------")
@@ -15,7 +16,6 @@ def printBoard(board):
     print(board[6] + " | " + board[7] + " | " + board[8])
 
 
-# take player input
 def playerInput(board):
     inp = int(input("enter a number 1-9: "))
     if inp >= 1 and inp <= 9 and board[inp-1] == "-":
@@ -24,7 +24,6 @@ def playerInput(board):
         print("player already in spot or invalid input")
 
 
-# check win or tie
 def checkHorizontal(board):
     global winner
     if board[0] == board[1] == board[2] and board[1] != "-":
@@ -71,7 +70,7 @@ def checkWin():
         print(f"the winner is {winner}")
         gameRunning = False
         printBoard(board)
-# switch player
+
 def switchPlayer():
     global currentPlayer
     if currentPlayer == "X":
@@ -79,9 +78,19 @@ def switchPlayer():
     else:
         currentPlayer = "X"
 
+def computer(board):
+    while currentPlayer == "O":
+        position = random.randint(0, 8)
+        if board[position] == "-":
+            board[position] = "O"
+            switchPlayer()
+
 while gameRunning:
     printBoard(board)
     playerInput(board)
     checkWin()
     checkTie(board)
     switchPlayer()
+    computer(board)
+    checkWin()
+    checkTie(board)
